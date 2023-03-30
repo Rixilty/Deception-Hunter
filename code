@@ -1,0 +1,3884 @@
+import random 
+import time
+
+Dev_Mode = "OFF"
+
+with open('Guide.txt', 'r+') as file:
+    text = file.read()
+    
+    if 'Guide = On' in text:
+        print("Welcome to (Who's the Traitor?)")
+        time.sleep(2)
+        print("--How to Play--")
+        time.sleep(2)
+        print("------------------------------------------------------------------------")
+        print("If your innocent (the most boring role) your goal is to kill the traitor")
+        time.sleep(4)
+        print("--------------------------------------------------------------------------------------")
+        print("You could wait for the detective to find clues to reveal the traitor or guess and kill")
+        print("(Killing 2 innocents will cause you to lose the game)")
+        time.sleep(6)
+        print("--------------------------------------------------------------------------------")
+        print("If your the detective however your goal is to find the 3 clues to reveal traitor")
+        time.sleep(4)
+        print("----------------------------------------------------------------------------------")
+        print("You can also kill, but again (Killing 2 innocents will cause you to lose the game)")
+        time.sleep(4)
+        print("------------------------------------------------------------------")
+        print("Lastly, if you're the traitor your goal is to simply kill everyone")
+        time.sleep(4)
+        print("-------------------------------------")
+        print("You will be playing with 4 other bots")
+        time.sleep(3)
+        print("---------------------------------------------------------")
+        print("Innocent bots will only kill when the traitor is revealed")
+        time.sleep(3)
+        print("--------------------------------------------------------------")
+        print("Detective bot will grab the 3 clues to help reveal the traitor")
+        time.sleep(3)
+        print("-------------------------------------")
+        print("Traitor bot will try to kill everyone")
+        time.sleep(2)
+        print("---------------------------------------------------")
+        print("This guide will only appear the first time you play")
+        print("---------------------------------------------------")
+
+    print()
+    
+    text = text.replace('Guide = On', 'Guide = Off')
+    file.seek(0)
+    file.write(text)
+    file.truncate()
+
+    
+def Again():
+    def game():
+        global List, Choice, Pos_x, Pos_y, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, In, De, Tr, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, Clue1_Pos_x, Clue1_Pos_y, Clue1, Grabbed_clue_1, Clue2_Pos_x, Clue2_Pos_y, Clue2, Grabbed_clue_2, Clue3_Pos_x, Clue3_Pos_y, Clue3, Grabbed_clue_3, Clues_Found, Innocent_Kills, Player_alive, Spectator_Mode, Already_Spectating, Move, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue5_Pos_x, Clue5_Pos_y, Clue4, Clue5, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+        
+        #Pick a random role 
+        List = ["1","1","1","1","1","1","2","2","3"] 
+        Choice = random.choice(List) 
+
+        #Pick a random room for the player 
+        Pos_x = random.randint(1,5) 
+        Pos_y = random.randint(1,5)
+
+        #Bots position
+        Bot_1_Pos_x = random.randint(1,5)
+        Bot_1_Pos_y = random.randint(1,5)
+
+        Bot_2_Pos_x = random.randint(1,5) 
+        Bot_2_Pos_y = random.randint(1,5) 
+
+        Bot_3_Pos_x = random.randint(1,5) 
+        Bot_3_Pos_y = random.randint(1,5) 
+
+        Bot_4_Pos_x = random.randint(1,5) 
+        Bot_4_Pos_y = random.randint(1,5)
+
+        #Players alive
+        In = 0
+        De = 0
+        Tr = 0
+
+        #life
+        Player_alive = True
+        Bot_1_alive = True
+        Bot_2_alive = True
+        Bot_3_alive = True
+        Bot_4_alive = True
+                
+
+        #Investigating station
+        Investigating_centre_Pos_x = random.randint(1,5)
+        Investigating_centre_Pos_y = random.randint(1,5) 
+
+        #Clue1 position 
+        Clue1_Pos_x = random.randint(1,5) 
+        Clue1_Pos_y = random.randint(1,5) 
+        Clue1 = (f"You're first clue is in room ({Clue1_Pos_y},{Clue1_Pos_x})") 
+        Grabbed_clue_1 = False
+        Delivered_clue_1 = False
+
+        #Clue2 position 
+        Clue2_Pos_x = random.randint(1,5) 
+        Clue2_Pos_y = random.randint(1,5) 
+        Clue2 = (f"You're second clue is in room ({Clue2_Pos_y},{Clue2_Pos_x})")
+        Grabbed_clue_2 = False
+        Delivered_clue_2 = False
+
+          
+        #Clue3 position 
+        Clue3_Pos_x = random.randint(1,5) 
+        Clue3_Pos_y = random.randint(1,5) 
+        Clue3 = (f"You're third clue is in room ({Clue3_Pos_y},{Clue3_Pos_x})")
+        Grabbed_clue_3 = False
+        Delivered_clue_3 = False
+
+        #Clue4 position 
+        Clue4_Pos_x = random.randint(1,5) 
+        Clue4_Pos_y = random.randint(1,5) 
+        Clue4 = (f"The fourth clue is in room ({Clue4_Pos_y},{Clue4_Pos_x})")
+        Grabbed_clue_4 = False
+        Delivered_clue_4 = False
+
+        #Clue5 position 
+        Clue5_Pos_x = random.randint(1,5) 
+        Clue5_Pos_y = random.randint(1,5) 
+        Clue5 = (f"The fifth clue is in room ({Clue5_Pos_y},{Clue5_Pos_x})")
+        Grabbed_clue_5 = False
+        Delivered_clue_5 = False
+
+        Investigation_completed = False
+
+        #How many clues are found
+        Clues_Found = 0
+
+        #How many innocents killed
+        Innocent_Kills = 0
+
+        #Spectating
+        Spectator_Mode = "OFF"
+        Already_Spectating = False
+
+        Move = ""
+
+
+    game()
+
+    def FPlayer(): 
+        global Player, In, De, Tr
+        Choice = random.choice(List) 
+        Player = Choice 
+        if Player == "1" and In <3: 
+            Player = "Innocent"
+            In +=1
+            List.remove("1") 
+            List.remove("1") 
+        elif Player == "2" and De <1: 
+            Player = "Detective"
+            De +=1
+            List.remove("2") 
+            List.remove("2") 
+        elif Player == "3" and Tr <1:
+            Player = "Traitor"
+            Tr +=1
+            List.remove("3")
+
+
+    def FBot_1(): 
+        global Bot_1, In, De, Tr 
+        Choice = random.choice(List) 
+        Bot_1 = Choice 
+        if Bot_1 == "1" and In <3: 
+            Bot_1 = "Innocent"
+            In +=1
+            List.remove("1") 
+            List.remove("1") 
+        elif Bot_1 == "2" and De <1: 
+            Bot_1 = "Detective"
+            De +=1
+            List.remove("2") 
+            List.remove("2") 
+        elif Bot_1 == "3" and Tr <1:
+            Bot_1 = "Traitor"
+            Tr +=1
+            List.remove("3")   
+
+    def FBot_2(): 
+        global Bot_2 , In, De, Tr
+        Choice = random.choice(List) 
+        Bot_2 = Choice 
+        if Bot_2 == "1" and In <3: 
+            Bot_2 = "Innocent"
+            In +=1
+            List.remove("1") 
+            List.remove("1") 
+        elif Bot_2 == "2" and De <1: 
+            Bot_2 = "Detective"
+            De +=1
+            List.remove("2") 
+            List.remove("2") 
+        elif Bot_2 == "3" and Tr <1:
+            Bot_2 = "Traitor"
+            Tr +=1
+            List.remove("3") 
+
+    def FBot_3(): 
+        global Bot_3 , In, De, Tr
+        Choice = random.choice(List) 
+        Bot_3 = Choice 
+        if Bot_3 == "1" and In <3: 
+            Bot_3 = "Innocent"
+            In +=1
+            List.remove("1") 
+            List.remove("1") 
+        elif Bot_3 == "2" and De <1: 
+            Bot_3 = "Detective"
+            De +=1
+            List.remove("2") 
+            List.remove("2") 
+        elif Bot_3 == "3" and Tr <1:
+            Bot_3 = "Traitor"
+            Tr +=1
+            List.remove("3") 
+
+    def FBot_4(): 
+        global Bot_4 , In, De, Tr
+        Choice = random.choice(List) 
+        Bot_4 = Choice 
+        if Bot_4 == "1" and In <3: 
+            Bot_4 = "Innocent"
+            In +=1
+            List.remove("1") 
+            List.remove("1") 
+        elif Bot_4 == "2" and De <1: 
+            Bot_4 = "Detective"
+            De +=1
+            List.remove("2") 
+            List.remove("2") 
+        elif Bot_4 == "3" and Tr <1:
+            Bot_4 = "Traitor"
+            Tr +=1
+            List.remove("3")
+
+
+    FPlayer() 
+    FBot_1() 
+    FBot_2() 
+    FBot_3() 
+    FBot_4()
+
+    if Player == "Traitor":
+        Traitor_Pos_x = Pos_x
+        Traitor_Pos_y = Pos_y
+        
+    elif Bot_1 == "Traitor":
+        Traitor_Pos_x = Bot_1_Pos_x
+        Traitor_Pos_y = Bot_1_Pos_y
+        
+    elif Bot_2 == "Traitor":
+        Traitor_Pos_x = Bot_2_Pos_x
+        Traitor_Pos_y = Bot_2_Pos_y
+        
+    elif Bot_3 == "Traitor":
+        Traitor_Pos_x = Bot_3_Pos_x
+        Traitor_Pos_y = Bot_3_Pos_y
+        
+    elif Bot_4 == "Traitor":
+        Traitor_Pos_x = Bot_4_Pos_x
+        Traitor_Pos_y = Bot_4_Pos_y
+
+    if Dev_Mode == "ON":
+        print("Player: ",Player) 
+        print("Bot_1: ",Bot_1) 
+        print("Bot_2: ",Bot_2) 
+        print("Bot_3: ",Bot_3) 
+        print("Bot_4: ",Bot_4)
+        print("Innocents alive: ",In)
+        print("Detectives alive: ",De)
+        print("Traitor alive: ",Tr)
+        print(f"Bot 1 Position: ({Bot_1_Pos_y}, {Bot_1_Pos_x})")
+        print(f"Bot 2 Position: ({Bot_2_Pos_y}, {Bot_2_Pos_x})")
+        print(f"Bot 3 Position: ({Bot_3_Pos_y}, {Bot_3_Pos_x})")
+        print(f"Bot 4 Position: ({Bot_4_Pos_y}, {Bot_4_Pos_x})")
+
+    print()
+    
+    if Player == "Innocent": 
+        print("You're Innocent") 
+
+
+
+    elif Player == "Detective": 
+        print("You're the detective") 
+
+
+
+    elif Player == "Traitor": 
+        print("You're a traitor")
+
+
+    hi = input()
+    if hi == "y":
+        Again()
+
+      
+
+    time.sleep(1) 
+    print(f"You're in room ({Pos_y},{Pos_x})") 
+      
+
+    def Innocent_Role():
+        global Pos_x, Pos_y, Player, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, In, De, Tr, Clue1_Pos_x , Clue1_Pos_y, Clue1, Grabbed_clue_1, Clue2_Pos_x , Clue2_Pos_y, Clue2, Grabbed_clue_2, Clue3_Pos_x , Clue3_Pos_y, Clue3, Grabbed_clue_3, Player_alive,Spectator_Mode ,Already_Spectating, Innocent_Kills, Move, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue5_Pos_x, Clue5_Pos_y, Clue4, Clue5, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+
+        Bot1()
+        Bot2()
+        Bot3()
+        Bot4()
+        Check_for_win() 
+        
+        if Pos_x == Clue1_Pos_x and Pos_y == Clue1_Pos_y and Grabbed_clue_1 == False:
+            print("You found the first clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the first clue!")
+                Grabbed_clue_1 = True
+                print("Deliver the first clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Innocent_Role()
+            
+
+        elif Pos_x == Clue2_Pos_x and Pos_y == Clue2_Pos_y and Grabbed_clue_1 == True and Grabbed_clue_2 == False:
+           print("You found the second clue!")
+           pick = input("Press (E) to grab the clue: ").lower()
+           if pick == "e":
+                print("You grabbed the second clue!")
+                Grabbed_clue_2 = True
+                print("Deliver the second clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+           else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+           Innocent_Role()
+            
+
+        elif Pos_x == Clue3_Pos_x and Pos_y == Clue3_Pos_y and Grabbed_clue_2 == True and Grabbed_clue_3 == False:
+           print("You found the third clue!")
+           pick = input("Press (E) to grab the clue: ").lower()
+           if pick == "e":
+                print("You grabbed the third clue!")
+                Grabbed_clue_3 = True
+                print("Deliver the third clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+           else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+           Innocent_Role()
+            
+
+        elif Pos_x == Clue4_Pos_x and Pos_y == Clue4_Pos_y and Grabbed_clue_3 == True and Grabbed_clue_4 == False:
+            print("You found the fourth clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the fourth clue!")
+                Grabbed_clue_1 = True
+                print("Deliver the fourth clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Innocent_Role()
+            
+
+        elif Pos_x == Clue5_Pos_x and Pos_y == Clue5_Pos_y and Grabbed_clue_4 == True and Grabbed_clue_5 == False:
+            print("You found the fifth clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the fifth clue!")
+                Grabbed_clue_1 = True
+                print("Deliver the fifth clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Innocent_Role()
+
+
+        if Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_1 == True and Delivered_clue_1 == False:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the first clue!")
+                print("(1/5 )Clues delivered!")
+                Delivered_clue_1 = True
+                print(Clue2)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+        
+
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_2 == True and Delivered_clue_2 == False and Delivered_clue_1 == True:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the second clue!")
+                print("(2/5 )Clues delivered!")
+                Delivered_clue_2 = True
+                print(Clue3)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+
+
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_3 == True and Delivered_clue_3 == False and Delivered_clue_2 == True:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the third clue!")
+                print("(3/5 )Clues delivered!")
+                Delivered_clue_3 = True
+                print(Clue4)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+        
+
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_4 == True and Delivered_clue_4 == False and Delivered_clue_3 == True:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the fourth clue!")
+                print("(4/5 )Clues delivered!")
+                Delivered_clue_4 = True
+                print(Clue5)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+        
+        
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_5 == True and Delivered_clue_5 == False and Delivered_clue_4 == True:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the fifth clue!")
+                print("(5/5 )Clues delivered!")
+                print("Detective needs to arrive to the investigating station to.....")
+                Delivered_clue_5 = True
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+        
+        
+        if Bot_1_Pos_x == Pos_x and Bot_1_Pos_y == Pos_y and Bot_1_alive == True:
+            time.sleep(1)
+            print("Bot 1 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 1? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_1 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_1 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_1 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 1")
+                Bot_1_Pos_x = 6
+                Bot_1_Pos_y = 6
+                Bot_1_alive = False
+            elif kill == "p":
+                Innocent_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+
+                
+        if Bot_2_Pos_x == Pos_x and Bot_2_Pos_y == Pos_y and Bot_2_alive == True:
+            time.sleep(1)
+            print("Bot 2 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 2? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_2 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_2 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_2 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 2")
+                Bot_2_Pos_x = 7
+                Bot_2_Pos_y = 7
+                Bot_2_alive = False
+            elif kill == "p":
+                Innocent_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+
+            
+        if Bot_3_Pos_x == Pos_x and Bot_3_Pos_y == Pos_y and Bot_3_alive == True:
+            time.sleep(1)
+            print("Bot 3 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 3? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_3 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_3 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_3 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 3")
+                Bot_3_Pos_x = 8
+                Bot_3_Pos_y = 8
+                Bot_3_alive = False
+            elif kill == "p":
+                Innocent_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+
+            
+        if Bot_4_Pos_x == Pos_x and Bot_4_Pos_y == Pos_y and Bot_4_alive == True:
+            time.sleep(1)
+            print("Bot 4 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 4? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_4 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_4 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_4 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 4")
+                Bot_4_Pos_x = 9
+                Bot_4_Pos_y = 9
+                Bot_4_alive = False
+            elif kill == "p":
+                Innocent_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Innocent_Role()
+
+        if Innocent_Kills == 2:
+            print("You killed 2 innocents")
+            Check_for_win()
+
+
+        if Player_alive == True:
+            Move = input("use WASD to move: ").lower()
+        elif Player_alive == False:
+            Move = "X"
+            pass
+            
+        if Move == "w": 
+            if Pos_y <5: 
+                Pos_y += 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Innocent_Role() 
+        elif Move == "a": 
+            if Pos_x >0: 
+                Pos_x -= 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Innocent_Role() 
+        elif Move == "s": 
+            if Pos_y >0: 
+                Pos_y -= 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Innocent_Role() 
+        elif Move == "d": 
+            if Pos_x <5: 
+                Pos_x += 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Innocent_Role()
+            
+        elif Move == "X" and Already_Spectating == False:
+            Already_Spectating = True
+            Spectator_Mode = "ON"
+            Play_Again = input("Spectate, Play again? (S/Y/N): ").lower()
+            if Play_Again == "y":
+                Again()
+            elif Play_Again == "s":
+                Innocent_Role()
+            elif Play_Again == "n":
+                exit()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key")
+        else:
+            if Spectator_Mode == "OFF":
+                print("Invalid key") 
+        Innocent_Role()
+
+
+    def Detective_Role():
+        global Pos_x, Pos_y, Player, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, In, De, Tr, Clue1_Pos_x , Clue1_Pos_y, Clue1, Grabbed_clue_1, Clue2_Pos_x , Clue2_Pos_y, Clue2, Grabbed_clue_2, Clue3_Pos_x , Clue3_Pos_y, Clue3, Grabbed_clue_3, Player_alive,Spectator_Mode ,Already_Spectating, Innocent_Kills, Move, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue5_Pos_x, Clue5_Pos_y, Clue4, Clue5, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+
+        Bot1()
+        Bot2()
+        Bot3()
+        Bot4()
+        Check_for_win() 
+        
+        if Pos_x == Clue1_Pos_x and Pos_y == Clue1_Pos_y and Grabbed_clue_1 == False:
+            print("You found the first clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the first clue!")
+                Grabbed_clue_1 = True
+                print("Deliver the first clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Detective_Role()
+            
+
+        elif Pos_x == Clue2_Pos_x and Pos_y == Clue2_Pos_y and Delivered_clue_1 == True and Grabbed_clue_2 == False and Delivered_clue_1 == True:
+            print("You found the second clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the second clue!")
+                Grabbed_clue_2 = True
+                print("Deliver the second clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Detective_Role()
+            
+
+        elif Pos_x == Clue3_Pos_x and Pos_y == Clue3_Pos_y and Delivered_clue_2 == True and Grabbed_clue_3 == False and Delivered_clue_2 == True:
+            print("You found the third clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the third clue!")
+                Grabbed_clue_3 = True
+                print("Deliver the third clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Detective_Role()
+            
+
+        elif Pos_x == Clue4_Pos_x and Pos_y == Clue4_Pos_y and Delivered_clue_3 == True and Grabbed_clue_4 == False and Delivered_clue_3 == True:
+            print("You found the fourth clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the fourth clue!")
+                Grabbed_clue_1 = True
+                print("Deliver the fourth clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Detective_Role()
+            
+
+        elif Pos_x == Clue5_Pos_x and Pos_y == Clue5_Pos_y and Delivered_clue_4 == True and Grabbed_clue_5 == False  and Delivered_clue_4 == True:
+            print("You found the fifth clue!")
+            pick = input("Press (E) to grab the clue: ").lower()
+            if pick == "e":
+                print("You grabbed the fifth clue!")
+                Grabbed_clue_1 = True
+                print("Deliver the fifth clue to the investigating centre")
+                print()
+                time.sleep(1)
+                print(f"The investigating centre is at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                print(f"You're in room ({Pos_y},{Pos_x})")
+                print()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+                    pick = input("Press (E) to grab the clue: ").lower()
+            Detective_Role()
+
+
+        if Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_1 == True and Delivered_clue_1 == False:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the first clue!")
+                print("(1/5 )Clues delivered!")
+                Delivered_clue_1 = True
+                print(Clue2)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+        
+
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_2 == True and Delivered_clue_2 == False:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the second clue!")
+                print("(2/5 )Clues delivered!")
+                Delivered_clue_2 = True
+                print(Clue3)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+
+
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_3 == True and Delivered_clue_3 == False:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the third clue!")
+                print("(3/5 )Clues delivered!")
+                Delivered_clue_3 = True
+                print(Clue4)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+        
+
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_4 == True and Delivered_clue_4 == False:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the fourth clue!")
+                print("(4/5 )Clues delivered!")
+                Delivered_clue_4 = True
+                print(Clue5)
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+        
+        
+        elif Pos_x == Investigating_centre_Pos_x and Pos_y == Investigating_centre_Pos_y and Grabbed_clue_5 == True and Delivered_clue_5 == False:
+            
+            Deliver = input("Press (E) to deliver the clue: ").lower()
+            if Deliver == "e":
+                print("You delivered the fifth clue!")
+                print("(5/5 )Clues delivered!")
+                Delivered_clue_5 = True
+                print("Detective needs to arrive to the investigating station to.....")
+                if Bot_1 == "Traitor":
+                    print("The traitor is Bot 1")
+                elif Bot_2 == "Traitor":
+                    print("The traitor is Bot 2")
+                elif Bot_3 == "Traitor":
+                    print("The traitor is Bot 3")
+                elif Bot_4 == "Traitor":
+                    print("The traitor is Bot 4")
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+        
+        
+        if Bot_1_Pos_x == Pos_x and Bot_1_Pos_y == Pos_y and Bot_1_alive == True:
+            time.sleep(1)
+            print("Bot 1 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 1? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_1 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_1 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_1 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 1")
+                Bot_1_Pos_x = 6
+                Bot_1_Pos_y = 6
+                Bot_1_alive = False
+            elif kill == "p":
+                Detective_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+
+                
+        if Bot_2_Pos_x == Pos_x and Bot_2_Pos_y == Pos_y and Bot_2_alive == True:
+            time.sleep(1)
+            print("Bot 2 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 2? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_2 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_2 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_2 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 2")
+                Bot_2_Pos_x = 7
+                Bot_2_Pos_y = 7
+                Bot_2_alive = False
+            elif kill == "p":
+                Detective_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+
+            
+        if Bot_3_Pos_x == Pos_x and Bot_3_Pos_y == Pos_y and Bot_3_alive == True:
+            time.sleep(1)
+            print("Bot 3 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 3? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_3 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_3 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_3 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 3")
+                Bot_3_Pos_x = 8
+                Bot_3_Pos_y = 8
+                Bot_3_alive = False
+            elif kill == "p":
+                Detective_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+
+            
+        if Bot_4_Pos_x == Pos_x and Bot_4_Pos_y == Pos_y and Bot_4_alive == True:
+            time.sleep(1)
+            print("Bot 4 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 4? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_4 == "Innocent":
+                    In -= 1
+                    Innocent_Kills += 1
+                elif Bot_4 == "Detective":
+                    De -= 1
+                    Innocent_Kills += 1
+                elif Bot_4 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 4")
+                Bot_4_Pos_x = 9
+                Bot_4_Pos_y = 9
+                Bot_4_alive = False
+            elif kill == "p":
+                Detective_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Detective_Role()
+
+        if Innocent_Kills == 2:
+            print("You killed 2 innocents")
+            Check_for_win()
+
+
+        if Player_alive == True:
+            Move = input("use WASD to move: ").lower()
+        elif Player_alive == False:
+            Move = "X"
+            pass
+            
+        if Move == "w": 
+            if Pos_y <5: 
+                Pos_y += 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Detective_Role() 
+        elif Move == "a": 
+            if Pos_x >0: 
+                Pos_x -= 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Detective_Role() 
+        elif Move == "s": 
+            if Pos_y >0: 
+                Pos_y -= 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Detective_Role() 
+        elif Move == "d": 
+            if Pos_x <5: 
+                Pos_x += 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Detective_Role()
+            
+        elif Move == "X" and Already_Spectating == False:
+            Already_Spectating = True
+            Spectator_Mode = "ON"
+            Play_Again = input("Spectate, Play again? (S/Y/N): ").lower()
+            if Play_Again == "y":
+                Again()
+            elif Play_Again == "s":
+                Detective_Role()
+            elif Play_Again == "n":
+                exit()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key")
+        else:
+            if Spectator_Mode == "OFF":
+                print("Invalid key") 
+        Detective_Role()
+            
+
+    def Traitor_Role():
+        global Pos_x, Pos_y, Player, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, In, De, Tr, Player_alive,Spectator_Mode ,Already_Spectating, Move, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue3_Pos_x, Clue3_Pos_y, Clue4, Clue3, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+
+
+        Bot1()
+        Bot2()
+        Bot3()
+        Bot4()
+        Check_for_win()
+        
+        if Bot_1_Pos_x == Pos_x and Bot_1_Pos_y == Pos_y and Bot_1_alive == True:
+            time.sleep(1)
+            print("Bot 1 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 1? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_1 == "Innocent":
+                    In -= 1
+                elif Bot_1 == "Detective":
+                    De -= 1
+                elif Bot_1 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 1")
+                Bot_1_Pos_x = 6
+                Bot_1_Pos_y = 6
+                Bot_1_alive = False
+            elif kill == "p":
+                Traitor_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Traitor_Role()
+
+                
+        if Bot_2_Pos_x == Pos_x and Bot_2_Pos_y == Pos_y and Bot_2_alive == True:
+            time.sleep(1)
+            print("Bot 2 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 2? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_2 == "Innocent":
+                    In -= 1
+                elif Bot_2 == "Detective":
+                    De -= 1
+                elif Bot_2 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 2")
+                Bot_2_Pos_x = 7
+                Bot_2_Pos_y = 7
+                Bot_2_alive = False
+                Traitor_Role()
+            elif kill == "p":
+                Traitor_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Traitor_Role()
+
+            
+        if Bot_3_Pos_x == Pos_x and Bot_3_Pos_y == Pos_y and Bot_3_alive == True:
+            time.sleep(1)
+            print("Bot 3 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 3? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if kill == "k":
+                    In -= 1
+                elif Bot_3 == "Detective":
+                    De -= 1
+                elif Bot_3 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 3")
+                Bot_3_Pos_x = 8
+                Bot_3_Pos_y = 8
+                Bot_3_alive = False
+                Traitor_Role()
+            elif kill == "p":
+                Traitor_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Traitor_Role()
+
+            
+        if Bot_4_Pos_x == Pos_x and Bot_4_Pos_y == Pos_y and Bot_4_alive == True:
+            time.sleep(1)
+            print("Bot 4 is in the same room")
+            time.sleep(1)
+            kill = input("Kill Bot 4? (K)to kill (P)to pass: ").lower()
+            if kill == "k":
+                if Bot_4 == "Innocent":
+                    In -= 1
+                elif Bot_4 == "Detective":
+                    De -= 1
+                elif Bot_4 == "Traitor":
+                    Tr -= 1
+                print("You killed Bot 4")
+                Bot_4_Pos_x = 9
+                Bot_4_Pos_y = 9
+                Bot_4_alive = False
+            elif kill == "p":
+                Traitor_Role()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key!")
+            Traitor_Role()
+
+        if Player_alive == True:
+            Move = input("use WASD to move: ").lower()
+        elif Player_alive == False:
+            Move = "X"
+            pass
+            
+        if Move == "w": 
+            if Pos_y <5: 
+                Pos_y += 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Traitor_Role() 
+        elif Move == "a": 
+            if Pos_x >0: 
+                Pos_x -= 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Traitor_Role() 
+        elif Move == "s": 
+            if Pos_y >0: 
+                Pos_y -= 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Traitor_Role() 
+        elif Move == "d": 
+            if Pos_x <5: 
+                Pos_x += 1 
+            else: 
+                pass 
+            print(f"You're in room ({Pos_y},{Pos_x})") 
+            Traitor_Role()
+            
+        elif Move == "X" and Already_Spectating == False:
+            Already_Spectating = True
+            Spectator_Mode = "ON"
+            Play_Again = input("Spectate, Play again? (S/Y/N): ").lower()
+            if Play_Again == "y":
+                Again()
+            elif Play_Again == "s":
+                Traitor_Role()
+            elif Play_Again == "n":
+                exit()
+            else:
+                if Spectator_Mode == "OFF":
+                    print("Invalid key")
+        else:
+            if Spectator_Mode == "OFF":
+                print("Invalid key") 
+        Traitor_Role()
+        
+      
+    def Bot1():
+
+        global Pos_x, Pos_y, Player, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, In, De, Tr, Clue1_Pos_x , Clue1_Pos_y, Clue3, Grabbed_clue_1, Clue2_Pos_x , Clue2_Pos_y, Clue2, Grabbed_clue_2, Clue3_Pos_x , Clue3_Pos_y, Clue3, Grabbed_clue_3, Clues_Found, Player_alive,Spectator_Mode ,Already_Spectating, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue3_Pos_x, Clue3_Pos_y, Clue4, Clue3, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+
+
+        if Dev_Mode == "ON" or Spectator_Mode == "ON":
+            print(f"Bot 1 Moved to Position: ({Bot_1_Pos_y}, {Bot_1_Pos_x})")
+
+        
+        if Bot_1_alive == True:
+            if Bot_1 == "Innocent":
+
+                if Investigation_completed == True:
+                    if Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Bot_2 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Bot_3 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Bot_4 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                if Grabbed_clue_1 == False and Clues_Found == 0:
+                    if Bot_1_Pos_x != Clue1_Pos_x:
+                        if Bot_1_Pos_x > Clue1_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue1_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue1_Pos_x and Bot_1_Pos_y != Clue1_Pos_y:
+                        if Bot_1_Pos_y > Clue1_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue1_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue1_Pos_x and Bot_1_Pos_y == Clue1_Pos_y:
+                        Grabbed_clue_1 = True
+                        Clues_Found = 1
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 1!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                
+                elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                    if Bot_1_Pos_x != Clue2_Pos_x:
+                        if Bot_1_Pos_x > Clue2_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue2_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue2_Pos_x and Bot_1_Pos_y != Clue2_Pos_y:
+                        if Bot_1_Pos_y > Clue2_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue2_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue2_Pos_x and Bot_1_Pos_y == Clue2_Pos_y:
+                        Grabbed_clue_2 = True
+                        Clues_Found = 2
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 2!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+                        
+
+                elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                    if Bot_1_Pos_x != Clue3_Pos_x:
+                        if Bot_1_Pos_x > Clue3_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue3_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue3_Pos_x and Bot_1_Pos_y != Clue3_Pos_y:
+                        if Bot_1_Pos_y > Clue3_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue3_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue3_Pos_x and Bot_1_Pos_y == Clue3_Pos_y:
+                        Grabbed_clue_3 = True
+                        Clues_Found = 3
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 3!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+                elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                    if Bot_1_Pos_x != Clue4_Pos_x:
+                        if Bot_1_Pos_x > Clue4_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue4_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue4_Pos_x and Bot_1_Pos_y != Clue4_Pos_y:
+                        if Bot_1_Pos_y > Clue4_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue4_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue4_Pos_x and Bot_1_Pos_y == Clue4_Pos_y:
+                        Grabbed_clue_4 = True
+                        Clues_Found = 4
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 4!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+
+                elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                    if Bot_1_Pos_x != Clue5_Pos_x:
+                        if Bot_1_Pos_x > Clue5_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue5_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue5_Pos_x and Bot_1_Pos_y != Clue5_Pos_y:
+                        if Bot_1_Pos_y > Clue5_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue5_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue5_Pos_x and Bot_1_Pos_y == Clue5_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 5!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                                        
+            elif Bot_1 == "Detective":
+
+                if Delivered_clue_5 == True:
+                    if Bot_1_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_1_Pos_x > Investigating_centre_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Investigating_centre_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_1_Pos_y > Investigating_centre_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Investigating_centre_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 is investigating the clues!")
+                        time.sleep(2)
+                        print("Bot 1 concludes that...")
+                        time.sleep(1)
+                        if Bot_1 == "Traitor":
+                            print("The traitor is Bot 1")
+                        elif Bot_2 == "Traitor":
+                            print("The traitor is Bot 2")
+                        elif Bot_3 == "Traitor":
+                            print("The traitor is Bot 3")
+                        elif Bot_4 == "Traitor":
+                            print("The traitor is Bot 4")
+                        time.sleep(1)
+                    
+                
+                
+                if Grabbed_clue_3 == True or Clues_Found == 3:
+                    if Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Bot_2 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Bot_3 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_1_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_1_Pos_y and Bot_4 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 1 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                if Grabbed_clue_1 == False and Clues_Found == 0:
+                    if Bot_1_Pos_x != Clue1_Pos_x:
+                        if Bot_1_Pos_x > Clue1_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue1_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue1_Pos_x and Bot_1_Pos_y != Clue1_Pos_y:
+                        if Bot_1_Pos_y > Clue1_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue1_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue1_Pos_x and Bot_1_Pos_y == Clue1_Pos_y:
+                        Grabbed_clue_1 = True
+                        Clues_Found = 1
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 1!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                
+                elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                    if Bot_1_Pos_x != Clue2_Pos_x:
+                        if Bot_1_Pos_x > Clue2_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue2_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue2_Pos_x and Bot_1_Pos_y != Clue2_Pos_y:
+                        if Bot_1_Pos_y > Clue2_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue2_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue2_Pos_x and Bot_1_Pos_y == Clue2_Pos_y:
+                        Grabbed_clue_2 = True
+                        Clues_Found = 2
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 2!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+                        
+
+                elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                    if Bot_1_Pos_x != Clue3_Pos_x:
+                        if Bot_1_Pos_x > Clue3_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue3_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue3_Pos_x and Bot_1_Pos_y != Clue3_Pos_y:
+                        if Bot_1_Pos_y > Clue3_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue3_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue3_Pos_x and Bot_1_Pos_y == Clue3_Pos_y:
+                        Grabbed_clue_3 = True
+                        Clues_Found = 3
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 3!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+                elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                    if Bot_1_Pos_x != Clue4_Pos_x:
+                        if Bot_1_Pos_x > Clue4_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue4_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue4_Pos_x and Bot_1_Pos_y != Clue4_Pos_y:
+                        if Bot_1_Pos_y > Clue4_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue4_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue4_Pos_x and Bot_1_Pos_y == Clue4_Pos_y:
+                        Grabbed_clue_4 = True
+                        Clues_Found = 4
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 4!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+
+                elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                    if Bot_1_Pos_x != Clue5_Pos_x:
+                        if Bot_1_Pos_x > Clue5_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Clue5_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Clue5_Pos_x and Bot_1_Pos_y != Clue5_Pos_y:
+                        if Bot_1_Pos_y > Clue5_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Clue5_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue5_Pos_x and Bot_1_Pos_y == Clue5_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 grabbed clue 5!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+
+
+
+
+                if Grabbed_clue_1 == True and Clues_Found == 1 and Delivered_clue_1 == False:
+                    if Bot_1_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_1_Pos_x > Investigating_centre_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Investigating_centre_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_1_Pos_y > Investigating_centre_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Investigating_centre_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_1 = True
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 delivered clue 1!")
+                        if Player != "Traitor":
+                            print(Clue2)
+                        time.sleep(1)
+                
+                elif Grabbed_clue_2 == True and Clues_Found == 2 and Delivered_clue_2 == False:
+                    if Bot_1_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_1_Pos_x > Investigating_centre_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Investigating_centre_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_1_Pos_y > Investigating_centre_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Investigating_centre_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Clue2_Pos_x and Bot_1_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_2 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_2, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 delivered clue 2!")
+                        if Player != "Traitor":
+                            print(Clue3)
+                        time.sleep(1)
+
+                        
+
+                elif Grabbed_clue_3 == True and Clues_Found == 3 and Delivered_clue_3 == False:
+                    if Bot_1_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_1_Pos_x > Investigating_centre_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Investigating_centre_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_1_Pos_y > Investigating_centre_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Investigating_centre_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_3 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 delivered clue 3!")
+                        if Player != "Traitor":
+                            print(Clue4)
+                        time.sleep(1)
+    
+
+                elif Grabbed_clue_4 == True and Clues_Found == 4 and Delivered_clue_4 == False:
+                    if Bot_1_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_1_Pos_x > Investigating_centre_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Investigating_centre_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_1_Pos_y > Investigating_centre_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Investigating_centre_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_4 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 delivered clue 4!")
+                        if Player != "Traitor":
+                            print(Clue5)
+                        time.sleep(1)
+    
+
+
+                elif Grabbed_clue_5 == True and Clues_Found == 5 and Delivered_clue_5 == False:
+                    if Bot_1_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_1_Pos_x > Investigating_centre_Pos_x:
+                            Bot_1_Pos_x -= 1
+                            
+                            
+                        elif Bot_1_Pos_x < Investigating_centre_Pos_x:
+                            Bot_1_Pos_x += 1
+                            
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_1_Pos_y > Investigating_centre_Pos_y:
+                            Bot_1_Pos_y -= 1
+                            
+                            
+                        elif Bot_1_Pos_y < Investigating_centre_Pos_y:
+                            Bot_1_Pos_y += 1
+                            
+                    elif Bot_1_Pos_x ==  Investigating_centre_Pos_x and Bot_1_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 1 delivered clue 5!")
+                        time.sleep(1)
+                        print("Detective needs to arrive at the Investigating centre")
+                        time.sleep(2)
+                        if Player != "Traitor":
+                            print("Investigating centre is in room ({Investigating_centre_Pos_y}{Investigating_centre_Pos_x}})")
+                        time.sleep(1)
+                        print("Detective needs to arrive at the Investigating centre")
+                        time.sleep(2)
+                        if Player != "Traitor":
+                            print("Investigating centre is in room ({Investigating_centre_Pos_y}{Investigating_centre_Pos_x}})")
+                        time.sleep(1)
+
+                    
+                   
+            elif Bot_1 == "Traitor":
+                if Bot_1_Pos_x == Pos_x and Bot_1_Pos_y == Pos_y and Player == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                elif Bot_1_Pos_x == Pos_x and Bot_1_Pos_y == Pos_y and Player == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                    
+                if Bot_1_Pos_x == Bot_2_Pos_x and Bot_1_Pos_y == Bot_2_Pos_y and Bot_2 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_2_alive = False
+                    Bot_2_Pos_x = 7
+                    Bot_2_Pos_y = 7
+                elif Bot_1_Pos_x == Bot_2_Pos_x and Bot_1_Pos_y == Bot_2_Pos_y and Bot_2 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_2_alive = False
+                    Bot_2_Pos_x = 7
+                    Bot_2_Pos_y = 7
+
+                if Bot_1_Pos_x == Bot_3_Pos_x and Bot_1_Pos_y == Bot_3_Pos_y and Bot_3 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_3_alive = False
+                    Bot_3_Pos_x = 8
+                    Bot_3_Pos_y = 8
+                elif Bot_1_Pos_x == Bot_3_Pos_x and Bot_1_Pos_y == Bot_3_Pos_y and Bot_3 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_3_alive = False
+                    Bot_3_Pos_x = 8
+                    Bot_3_Pos_y = 8
+
+                if Bot_1_Pos_x == Bot_4_Pos_x and Bot_1_Pos_y == Bot_4_Pos_y and Bot_4 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_4_alive = False
+                    Bot_4_Pos_x = 9
+                    Bot_4_Pos_y = 9
+                elif Bot_1_Pos_x == Bot_4_Pos_x and Bot_1_Pos_y == Bot_4_Pos_y and Bot_4 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_4_alive = False
+                    Bot_4_Pos_x = 9
+                    Bot_4_Pos_y = 9
+            
+                Bot_Move = random.choice(["1","2"])
+                if Bot_1_Pos_x == 0 and Bot_Move == "1":
+                    Bot_1_Pos_x += 1
+                elif Bot_1_Pos_x == 5 and Bot_Move == "1":
+                    Bot_1_Pos_x -= 1
+                    
+                elif Bot_1_Pos_x >0 and Bot_1_Pos_x <5 and Bot_Move == "1":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_1_Pos_x += 1
+                    elif LOR == "2":
+                        Bot_1_Pos_x -= 1
+                
+                elif Bot_1_Pos_y == 0 and Bot_Move == "2":
+                    Bot_1_Pos_y += 1
+                elif Bot_1_Pos_y == 5 and Bot_Move == "2":
+                    Bot_1_Pos_y -= 1
+                    
+                elif Bot_1_Pos_y >0 and Bot_1_Pos_y <5 and Bot_Move == "2":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_1_Pos_y += 1
+                    elif LOR == "2":
+                        Bot_1_Pos_y -= 1
+                        
+    def Bot2():
+        
+        global Pos_x, Pos_y, Player, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, In, De, Tr, Clue1_Pos_x , Clue1_Pos_y, Clue3, Grabbed_clue_1, Clue2_Pos_x , Clue2_Pos_y, Clue2, Grabbed_clue_2, Clue3_Pos_x , Clue3_Pos_y, Clue3, Grabbed_clue_3, Clues_Found, Player_alive,Spectator_Mode ,Already_Spectating, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue3_Pos_x, Clue3_Pos_y, Clue4, Clue3, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+
+
+        if Dev_Mode == "ON" or Spectator_Mode == "ON":
+            print(f"Bot 2 Moved to Position: ({Bot_2_Pos_y}, {Bot_2_Pos_x})")
+
+        
+        if Bot_2_alive == True:
+            if Bot_2 == "Innocent":
+
+                if Investigation_completed == True:
+                    if Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Bot_1 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Bot_3 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Bot_4 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                if Grabbed_clue_1 == False and Clues_Found == 0:
+                    if Bot_2_Pos_x != Clue1_Pos_x:
+                        if Bot_2_Pos_x > Clue1_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue1_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue1_Pos_x and Bot_2_Pos_y != Clue1_Pos_y:
+                        if Bot_2_Pos_y > Clue1_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue1_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue1_Pos_x and Bot_2_Pos_y == Clue1_Pos_y:
+                        Grabbed_clue_1 = True
+                        Clues_Found = 1
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 1!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                
+                elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                    if Bot_2_Pos_x != Clue2_Pos_x:
+                        if Bot_2_Pos_x > Clue2_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue2_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue2_Pos_x and Bot_2_Pos_y != Clue2_Pos_y:
+                        if Bot_2_Pos_y > Clue2_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue2_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue2_Pos_x and Bot_2_Pos_y == Clue2_Pos_y:
+                        Grabbed_clue_2 = True
+                        Clues_Found = 2
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 2!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+                        
+
+                elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                    if Bot_2_Pos_x != Clue3_Pos_x:
+                        if Bot_2_Pos_x > Clue3_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue3_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue3_Pos_x and Bot_2_Pos_y != Clue3_Pos_y:
+                        if Bot_2_Pos_y > Clue3_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue3_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue3_Pos_x and Bot_2_Pos_y == Clue3_Pos_y:
+                        Grabbed_clue_3 = True
+                        Clues_Found = 3
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 3!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+                elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                    if Bot_2_Pos_x != Clue4_Pos_x:
+                        if Bot_2_Pos_x > Clue4_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue4_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue4_Pos_x and Bot_2_Pos_y != Clue4_Pos_y:
+                        if Bot_2_Pos_y > Clue4_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue4_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue4_Pos_x and Bot_2_Pos_y == Clue4_Pos_y:
+                        Grabbed_clue_4 = True
+                        Clues_Found = 4
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 4!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+        
+
+
+                elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                    if Bot_2_Pos_x != Clue5_Pos_x:
+                        if Bot_2_Pos_x > Clue5_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue5_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue5_Pos_x and Bot_2_Pos_y != Clue5_Pos_y:
+                        if Bot_2_Pos_y > Clue5_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue5_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue5_Pos_x and Bot_2_Pos_y == Clue5_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 5!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                    
+                
+            elif Bot_2 == "Detective":
+
+                if Delivered_clue_5 == True:
+                    if Bot_2_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_2_Pos_x > Investigating_centre_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Investigating_centre_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_2_Pos_y > Investigating_centre_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Investigating_centre_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 is investigating the clues!")
+                        time.sleep(2)
+                        print("Bot 2 concludes that...")
+                        time.sleep(1)
+                        if Bot1 == "Traitor":
+                            print("The traitor is Bot 1")
+                        elif Bot_2 == "Traitor":
+                            print("The traitor is Bot 2")
+                        elif Bot_3 == "Traitor":
+                            print("The traitor is Bot 3")
+                        elif Bot_4 == "Traitor":
+                            print("The traitor is Bot 4")
+                        time.sleep(1)
+                    
+                
+                
+                if Grabbed_clue_3 == True or Clues_Found == 3:
+                    if Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Bot_2 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Bot_3 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_2_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_2_Pos_y and Bot_4 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 2 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                if Grabbed_clue_1 == False and Clues_Found == 0:
+                    if Bot_2_Pos_x != Clue1_Pos_x:
+                        if Bot_2_Pos_x > Clue1_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue1_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue1_Pos_x and Bot_2_Pos_y != Clue1_Pos_y:
+                        if Bot_2_Pos_y > Clue1_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue1_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue1_Pos_x and Bot_2_Pos_y == Clue1_Pos_y:
+                        Grabbed_clue_1 = True
+                        Clues_Found = 1
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 1!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                
+                elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                    if Bot_2_Pos_x != Clue2_Pos_x:
+                        if Bot_2_Pos_x > Clue2_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue2_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue2_Pos_x and Bot_2_Pos_y != Clue2_Pos_y:
+                        if Bot_2_Pos_y > Clue2_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue2_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue2_Pos_x and Bot_2_Pos_y == Clue2_Pos_y:
+                        Grabbed_clue_2 = True
+                        Clues_Found = 2
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 2!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+                        
+
+                elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                    if Bot_2_Pos_x != Clue3_Pos_x:
+                        if Bot_2_Pos_x > Clue3_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue3_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue3_Pos_x and Bot_2_Pos_y != Clue3_Pos_y:
+                        if Bot_2_Pos_y > Clue3_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue3_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue3_Pos_x and Bot_2_Pos_y == Clue3_Pos_y:
+                        Grabbed_clue_3 = True
+                        Clues_Found = 3
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 3!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+                elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                    if Bot_2_Pos_x != Clue4_Pos_x:
+                        if Bot_2_Pos_x > Clue4_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue4_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue4_Pos_x and Bot_2_Pos_y != Clue4_Pos_y:
+                        if Bot_2_Pos_y > Clue4_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue4_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue4_Pos_x and Bot_2_Pos_y == Clue4_Pos_y:
+                        Grabbed_clue_4 = True
+                        Clues_Found = 4
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 4!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+
+                elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                    if Bot_2_Pos_x != Clue5_Pos_x:
+                        if Bot_2_Pos_x > Clue5_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Clue5_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Clue5_Pos_x and Bot_2_Pos_y != Clue5_Pos_y:
+                        if Bot_2_Pos_y > Clue5_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Clue5_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Clue5_Pos_x and Bot_2_Pos_y == Clue5_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 grabbed clue 5!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+
+
+
+
+                if Grabbed_clue_1 == True and Clues_Found == 1 and Delivered_clue_1 == False:
+                    if Bot_2_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_2_Pos_x > Investigating_centre_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Investigating_centre_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_2_Pos_y > Investigating_centre_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Investigating_centre_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_1 = True
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 delivered clue 1!")
+                        if Player != "Traitor":
+                            print(Clue2)
+                        time.sleep(1)
+                
+                elif Grabbed_clue_2 == True and Clues_Found == 2 and Delivered_clue_2 == False:
+                    if Bot_2_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_2_Pos_x > Investigating_centre_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Investigating_centre_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_2_Pos_y > Investigating_centre_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Investigating_centre_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_2 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_2, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 delivered clue 2!")
+                        if Player != "Traitor":
+                            print(Clue3)
+                        time.sleep(1)
+
+                        
+
+                elif Grabbed_clue_3 == True and Clues_Found == 3 and Delivered_clue_3 == False:
+                    if Bot_2_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_2_Pos_x > Investigating_centre_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Investigating_centre_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_2_Pos_y > Investigating_centre_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Investigating_centre_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_3 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 delivered clue 3!")
+                        if Player != "Traitor":
+                            print(Clue4)
+                        time.sleep(1)
+    
+
+                elif Grabbed_clue_4 == True and Clues_Found == 4 and Delivered_clue_4 == False:
+                    if Bot_2_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_2_Pos_x > Investigating_centre_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Investigating_centre_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_2_Pos_y > Investigating_centre_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Investigating_centre_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_4 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 delivered clue 4!")
+                        if Player != "Traitor":
+                            print(Clue5)
+                        time.sleep(1)
+    
+
+
+                elif Grabbed_clue_5 == True and Clues_Found == 5 and Delivered_clue_5 == False:
+                    if Bot_2_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_2_Pos_x > Investigating_centre_Pos_x:
+                            Bot_2_Pos_x -= 1
+                            
+                            
+                        elif Bot_2_Pos_x < Investigating_centre_Pos_x:
+                            Bot_2_Pos_x += 1
+                            
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_2_Pos_y > Investigating_centre_Pos_y:
+                            Bot_2_Pos_y -= 1
+                            
+                            
+                        elif Bot_2_Pos_y < Investigating_centre_Pos_y:
+                            Bot_2_Pos_y += 1
+                            
+                    elif Bot_2_Pos_x ==  Investigating_centre_Pos_x and Bot_2_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 2 delivered clue 5!")
+                        time.sleep(1)
+                        print("Detective needs to arrive at the Investigating centre")
+                        time.sleep(2)
+                        if Player != "Traitor":
+                            print("Investigating centre is in room ({Investigating_centre_Pos_y}{Investigating_centre_Pos_x}})")
+                        time.sleep(1)
+                        print("Detective needs to arrive at the Investigating centre")
+                        time.sleep(2)
+                        if Player != "Traitor":
+                            print("Investigating centre is in room ({Investigating_centre_Pos_y}{Investigating_centre_Pos_x}})")
+                        time.sleep(1)
+                    
+                   
+            elif Bot_2 == "Traitor":
+                if Bot_2_Pos_x == Pos_x and Bot_2_Pos_y == Pos_y and Player == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                elif Bot_2_Pos_x == Pos_x and Bot_2_Pos_y == Pos_y and Player == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                    
+                if Bot_2_Pos_x == Bot_1_Pos_x and Bot_2_Pos_y == Bot_1_Pos_y and Bot_1 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_1_alive = False
+                    Bot_1_Pos_x = 6
+                    Bot_1_Pos_y = 6
+                elif Bot_2_Pos_x == Bot_1_Pos_x and Bot_2_Pos_y == Bot_1_Pos_y and Bot_1 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_1_alive = False
+                    Bot_1_Pos_x = 6
+                    Bot_1_Pos_y = 6
+
+                if Bot_2_Pos_x == Bot_3_Pos_x and Bot_2_Pos_y == Bot_3_Pos_y and Bot_3 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_3_alive = False
+                    Bot_3_Pos_x = 8
+                    Bot_3_Pos_y = 8
+                elif Bot_2_Pos_x == Bot_3_Pos_x and Bot_2_Pos_y == Bot_3_Pos_y and Bot_3 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_3_alive = False
+                    Bot_3_Pos_x = 8
+                    Bot_3_Pos_y = 8
+
+                if Bot_2_Pos_x == Bot_4_Pos_x and Bot_2_Pos_y == Bot_4_Pos_y and Bot_4 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_4_alive = False
+                    Bot_4_Pos_x = 9
+                    Bot_4_Pos_y = 9
+                elif Bot_2_Pos_x == Bot_4_Pos_x and Bot_2_Pos_y == Bot_4_Pos_y and Bot_4 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_4_alive = False
+                    Bot_4_Pos_x = 9
+                    Bot_4_Pos_y = 9
+            
+                Bot_Move = random.choice(["1","2"])
+                if Bot_2_Pos_x == 0 and Bot_Move == "1":
+                    Bot_2_Pos_x += 1
+                elif Bot_2_Pos_x == 5 and Bot_Move == "1":
+                    Bot_2_Pos_x -= 1
+                    
+                elif Bot_2_Pos_x >0 and Bot_1_Pos_x <5 and Bot_Move == "1":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_2_Pos_x += 1
+                    elif LOR == "2":
+                        Bot_2_Pos_x -= 1
+                
+                elif Bot_2_Pos_y == 0 and Bot_Move == "2":
+                    Bot_2_Pos_y += 1
+                elif Bot_2_Pos_y == 5 and Bot_Move == "2":
+                    Bot_2_Pos_y -= 1
+                    
+                elif Bot_2_Pos_y >0 and Bot_2_Pos_y <5 and Bot_Move == "2":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_2_Pos_y += 1
+                    elif LOR == "2":
+                        Bot_2_Pos_y -= 1
+
+    def Bot3(): 
+
+        global Pos_x, Pos_y, Player, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, In, De, Tr, Clue1_Pos_x , Clue1_Pos_y, Clue3, Grabbed_clue_1, Clue2_Pos_x , Clue2_Pos_y, Clue2, Grabbed_clue_2, Clue3_Pos_x , Clue3_Pos_y, Clue3, Grabbed_clue_3, Clues_Found, Player_alive,Spectator_Mode ,Already_Spectating, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue3_Pos_x, Clue3_Pos_y, Clue4, Clue3, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+
+
+        if Dev_Mode == "ON" or Spectator_Mode == "ON":
+            print(f"Bot 3 Moved to Position: ({Bot_3_Pos_y}, {Bot_3_Pos_x})")
+        
+        if Bot_3_alive == True:
+            if Investigation_completed == True:
+                    if Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 3 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Bot_1 == "Traitor":
+                        Tr -= 1
+
+                        time.sleep(1)
+                        print("Bot 3 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Bot_2 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 3 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Bot_4 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 3 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+            if Grabbed_clue_1 == False and Clues_Found == 0:
+                if Bot_3_Pos_x != Clue1_Pos_x:
+                    if Bot_3_Pos_x > Clue1_Pos_x:
+                        Bot_3_Pos_x -= 1
+                        
+                        
+                    elif Bot_3_Pos_x < Clue1_Pos_x:
+                        Bot_3_Pos_x += 1
+                        
+                        
+                elif Bot_3_Pos_x ==  Clue1_Pos_x and Bot_3_Pos_y != Clue1_Pos_y:
+                    if Bot_3_Pos_y > Clue1_Pos_y:
+                        Bot_3_Pos_y -= 1
+                        
+                        
+                    elif Bot_3_Pos_y < Clue1_Pos_y:
+                        Bot_3_Pos_y += 1
+                        
+                elif Bot_3_Pos_x ==  Clue1_Pos_x and Bot_3_Pos_y == Clue1_Pos_y:
+                    Grabbed_clue_1 = True
+                    Clues_Found = 1
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_1, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 3 grabbed clue 1!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+            
+            elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                if Bot_3_Pos_x != Clue2_Pos_x:
+                    if Bot_3_Pos_x > Clue2_Pos_x:
+                        Bot_3_Pos_x -= 1
+                        
+                        
+                    elif Bot_3_Pos_x < Clue2_Pos_x:
+                        Bot_3_Pos_x += 1
+                        
+                        
+                elif Bot_3_Pos_x ==  Clue2_Pos_x and Bot_3_Pos_y != Clue2_Pos_y:
+                    if Bot_3_Pos_y > Clue2_Pos_y:
+                        Bot_3_Pos_y -= 1
+                        
+                        
+                    elif Bot_3_Pos_y < Clue2_Pos_y:
+                        Bot_3_Pos_y += 1
+                        
+                elif Bot_3_Pos_x ==  Clue2_Pos_x and Bot_3_Pos_y == Clue2_Pos_y:
+                    Grabbed_clue_2 = True
+                    Clues_Found = 2
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_1, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 3 grabbed clue 2!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+
+                    
+
+            elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                if Bot_3_Pos_x != Clue3_Pos_x:
+                    if Bot_3_Pos_x > Clue3_Pos_x:
+                        Bot_3_Pos_x -= 1
+                        
+                        
+                    elif Bot_3_Pos_x < Clue3_Pos_x:
+                        Bot_3_Pos_x += 1
+                        
+                        
+                elif Bot_3_Pos_x ==  Clue3_Pos_x and Bot_3_Pos_y != Clue3_Pos_y:
+                    if Bot_3_Pos_y > Clue3_Pos_y:
+                        Bot_3_Pos_y -= 1
+                        
+                        
+                    elif Bot_3_Pos_y < Clue3_Pos_y:
+                        Bot_3_Pos_y += 1
+                        
+                elif Bot_3_Pos_x ==  Clue3_Pos_x and Bot_3_Pos_y == Clue3_Pos_y:
+                    Grabbed_clue_3 = True
+                    Clues_Found = 3
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_3, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 3 grabbed clue 3!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+
+
+            elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                if Bot_3_Pos_x != Clue4_Pos_x:
+                    if Bot_3_Pos_x > Clue4_Pos_x:
+                        Bot_3_Pos_x -= 1
+                        
+                        
+                    elif Bot_3_Pos_x < Clue4_Pos_x:
+                        Bot_3_Pos_x += 1
+                        
+                        
+                elif Bot_3_Pos_x ==  Clue4_Pos_x and Bot_3_Pos_y != Clue4_Pos_y:
+                    if Bot_3_Pos_y > Clue4_Pos_y:
+                        Bot_3_Pos_y -= 1
+                        
+                        
+                    elif Bot_3_Pos_y < Clue4_Pos_y:
+                        Bot_3_Pos_y += 1
+                        
+                elif Bot_3_Pos_x ==  Clue4_Pos_x and Bot_3_Pos_y == Clue4_Pos_y:
+                    Grabbed_clue_4 = True
+                    Clues_Found = 4
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_4, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 3 grabbed clue 4!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+
+
+
+            elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                if Bot_3_Pos_x != Clue5_Pos_x:
+                    if Bot_3_Pos_x > Clue5_Pos_x:
+                        Bot_3_Pos_x -= 1
+                        
+                        
+                    elif Bot_3_Pos_x < Clue5_Pos_x:
+                        Bot_3_Pos_x += 1
+                        
+                        
+                elif Bot_3_Pos_x ==  Clue5_Pos_x and Bot_3_Pos_y != Clue5_Pos_y:
+                    if Bot_3_Pos_y > Clue5_Pos_y:
+                        Bot_3_Pos_y -= 1
+                        
+                        
+                    elif Bot_3_Pos_y < Clue5_Pos_y:
+                        Bot_3_Pos_y += 1
+                        
+                elif Bot_3_Pos_x ==  Clue5_Pos_x and Bot_3_Pos_y == Clue5_Pos_y:
+                    Grabbed_clue_5 = True
+                    Clues_Found = 5
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_5, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 3 grabbed clue 5!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+                    
+                
+            elif Bot_3 == "Detective":
+
+                if Delivered_clue_5 == True:
+                    if Bot_3_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_3_Pos_x > Investigating_centre_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Investigating_centre_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_3_Pos_y > Investigating_centre_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Investigating_centre_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 is investigating the clues!")
+                        time.sleep(2)
+                        print("Bot 3 concludes that...")
+                        time.sleep(1)
+                        if Bot1 == "Traitor":
+                            print("The traitor is Bot 1")
+                        elif Bot_3 == "Traitor":
+                            print("The traitor is Bot 3")
+                        elif Bot_3 == "Traitor":
+                            print("The traitor is Bot 3")
+                        elif Bot_4 == "Traitor":
+                            print("The traitor is Bot 4")
+                        time.sleep(1)
+                    
+                
+                
+                if Grabbed_clue_3 == True or Clues_Found == 3:
+                    if Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 3 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Bot_1 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 3 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Bot_2 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 3 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_3_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_3_Pos_y and Bot_4 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 3 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                if Grabbed_clue_1 == False and Clues_Found == 0:
+                    if Bot_3_Pos_x != Clue1_Pos_x:
+                        if Bot_3_Pos_x > Clue1_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Clue1_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Clue1_Pos_x and Bot_3_Pos_y != Clue1_Pos_y:
+                        if Bot_3_Pos_y > Clue1_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Clue1_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Clue1_Pos_x and Bot_3_Pos_y == Clue1_Pos_y:
+                        Grabbed_clue_1 = True
+                        Clues_Found = 1
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 grabbed clue 1!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                
+                elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                    if Bot_3_Pos_x != Clue2_Pos_x:
+                        if Bot_3_Pos_x > Clue2_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Clue2_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Clue2_Pos_x and Bot_3_Pos_y != Clue2_Pos_y:
+                        if Bot_3_Pos_y > Clue2_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Clue2_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Clue2_Pos_x and Bot_3_Pos_y == Clue2_Pos_y:
+                        Grabbed_clue_2 = True
+                        Clues_Found = 2
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 grabbed clue 2!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+                        
+
+                elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                    if Bot_3_Pos_x != Clue3_Pos_x:
+                        if Bot_3_Pos_x > Clue3_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Clue3_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Clue3_Pos_x and Bot_3_Pos_y != Clue3_Pos_y:
+                        if Bot_3_Pos_y > Clue3_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Clue3_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Clue3_Pos_x and Bot_3_Pos_y == Clue3_Pos_y:
+                        Grabbed_clue_3 = True
+                        Clues_Found = 3
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 grabbed clue 3!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+                elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                    if Bot_3_Pos_x != Clue4_Pos_x:
+                        if Bot_3_Pos_x > Clue4_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Clue4_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Clue4_Pos_x and Bot_3_Pos_y != Clue4_Pos_y:
+                        if Bot_3_Pos_y > Clue4_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Clue4_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Clue4_Pos_x and Bot_3_Pos_y == Clue4_Pos_y:
+                        Grabbed_clue_4 = True
+                        Clues_Found = 4
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 grabbed clue 4!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+
+                elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                    if Bot_3_Pos_x != Clue5_Pos_x:
+                        if Bot_3_Pos_x > Clue5_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Clue5_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Clue5_Pos_x and Bot_3_Pos_y != Clue5_Pos_y:
+                        if Bot_3_Pos_y > Clue5_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Clue5_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Clue5_Pos_x and Bot_3_Pos_y == Clue5_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 grabbed clue 5!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+
+
+
+
+                if Grabbed_clue_1 == True and Clues_Found == 1 and Delivered_clue_1 == False:
+                    if Bot_3_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_3_Pos_x > Investigating_centre_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Investigating_centre_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_3_Pos_y > Investigating_centre_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Investigating_centre_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_1 = True
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 delivered clue 1!")
+                        if Player != "Traitor":
+                            print(Clue2)
+                        time.sleep(1)
+                
+                elif Grabbed_clue_2 == True and Clues_Found == 2 and Delivered_clue_2 == False:
+                    if Bot_3_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_3_Pos_x > Investigating_centre_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Investigating_centre_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_3_Pos_y > Investigating_centre_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Investigating_centre_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_2 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_2, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 delivered clue 2!")
+                        if Player != "Traitor":
+                            print(Clue3)
+                        time.sleep(1)
+
+                        
+
+                elif Grabbed_clue_3 == True and Clues_Found == 3 and Delivered_clue_3 == False:
+                    if Bot_3_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_3_Pos_x > Investigating_centre_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Investigating_centre_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_3_Pos_y > Investigating_centre_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Investigating_centre_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_3 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 delivered clue 3!")
+                        if Player != "Traitor":
+                            print(Clue4)
+                        time.sleep(1)
+    
+
+                elif Grabbed_clue_4 == True and Clues_Found == 4 and Delivered_clue_4 == False:
+                    if Bot_3_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_3_Pos_x > Investigating_centre_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Investigating_centre_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_3_Pos_y > Investigating_centre_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Investigating_centre_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_4 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 delivered clue 4!")
+                        if Player != "Traitor":
+                            print(Clue5)
+                        time.sleep(1)
+    
+
+
+                elif Grabbed_clue_5 == True and Clues_Found == 5 and Delivered_clue_5 == False:
+                    if Bot_3_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_3_Pos_x > Investigating_centre_Pos_x:
+                            Bot_3_Pos_x -= 1
+                            
+                            
+                        elif Bot_3_Pos_x < Investigating_centre_Pos_x:
+                            Bot_3_Pos_x += 1
+                            
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_3_Pos_y > Investigating_centre_Pos_y:
+                            Bot_3_Pos_y -= 1
+                            
+                            
+                        elif Bot_3_Pos_y < Investigating_centre_Pos_y:
+                            Bot_3_Pos_y += 1
+                            
+                    elif Bot_3_Pos_x ==  Investigating_centre_Pos_x and Bot_3_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 3 delivered clue 5!")
+                        time.sleep(1)
+                        print("Detective needs to arrive at the Investigating centre")
+                        time.sleep(2)
+                        if Player != "Traitor":
+                            print("Investigating centre is in room ({Investigating_centre_Pos_y}{Investigating_centre_Pos_x}})")
+                        time.sleep(1)
+                        print("Detective needs to arrive at the Investigating centre")
+                        time.sleep(2)
+                        if Player != "Traitor":
+                            print("Investigating centre is in room ({Investigating_centre_Pos_y}{Investigating_centre_Pos_x}})")
+                        time.sleep(1)
+                    
+                   
+            elif Bot_3 == "Traitor":
+                if Bot_3_Pos_x == Pos_x and Bot_3_Pos_y == Pos_y and Player == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                elif Bot_3_Pos_x == Pos_x and Bot_3_Pos_y == Pos_y and Player == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                    
+                if Bot_3_Pos_x == Bot_2_Pos_x and Bot_3_Pos_y == Bot_2_Pos_y and Bot_2 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_2_alive = False
+                    Bot_2_Pos_x = 7
+                    Bot_2_Pos_y = 7
+                elif Bot_3_Pos_x == Bot_2_Pos_x and Bot_3_Pos_y == Bot_2_Pos_y and Bot_2 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_2_alive = False
+                    Bot_2_Pos_x = 7
+                    Bot_2_Pos_y = 7
+
+                if Bot_3_Pos_x == Bot_1_Pos_x and Bot_3_Pos_y == Bot_1_Pos_y and Bot_1 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_1_alive = False
+                    Bot_1_Pos_x = 6
+                    Bot_1_Pos_y = 6
+                elif Bot_3_Pos_x == Bot_1_Pos_x and Bot_3_Pos_y == Bot_1_Pos_y and Bot_1 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_1_alive = False
+                    Bot_1_Pos_x = 6
+                    Bot_1_Pos_y = 6
+
+                if Bot_3_Pos_x == Bot_4_Pos_x and Bot_3_Pos_y == Bot_4_Pos_y and Bot_4 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_4_alive = False
+                    Bot_4_Pos_x = 9
+                    Bot_4_Pos_y = 9
+                elif Bot_3_Pos_x == Bot_4_Pos_x and Bot_3_Pos_y == Bot_4_Pos_y and Bot_4 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_4_alive = False
+                    Bot_4_Pos_x = 9
+                    Bot_4_Pos_y = 9
+            
+                Bot_Move = random.choice(["1","2"])
+                if Bot_3_Pos_x == 0 and Bot_Move == "1":
+                    Bot_3_Pos_x += 1
+                elif Bot_3_Pos_x == 5 and Bot_Move == "1":
+                    Bot_3_Pos_x -= 1
+                    
+                elif Bot_3_Pos_x >0 and Bot_3_Pos_x <5 and Bot_Move == "1":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_3_Pos_x += 1
+                    elif LOR == "2":
+                        Bot_3_Pos_x -= 1
+                
+                elif Bot_3_Pos_y == 0 and Bot_Move == "2":
+                    Bot_3_Pos_y += 1
+                elif Bot_3_Pos_y == 5 and Bot_Move == "2":
+                    Bot_3_Pos_y -= 1
+                    
+                elif Bot_3_Pos_y >0 and Bot_3_Pos_y <5 and Bot_Move == "2":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_3_Pos_y += 1
+                    elif LOR == "2":
+                        Bot_3_Pos_y -= 1 
+
+    def Bot4(): 
+
+        global Pos_x, Pos_y, Player, Bot_1_Pos_x, Bot_1_Pos_y, Bot_2_Pos_x, Bot_2_Pos_y, Bot_3_Pos_x, Bot_3_Pos_y, Bot_4_Pos_x, Bot_4_Pos_y, Bot_1_alive, Bot_2_alive, Bot_3_alive, Bot_4_alive, In, De, Tr, Clue1_Pos_x , Clue1_Pos_y, Clue3, Grabbed_clue_1, Clue2_Pos_x , Clue2_Pos_y, Clue2, Grabbed_clue_2, Clue3_Pos_x , Clue3_Pos_y, Clue3, Grabbed_clue_3, Clues_Found, Player_alive,Spectator_Mode ,Already_Spectating, Investigating_centre_Pos_x, Investigating_centre_Pos_y, Delivered_clue_1, Delivered_clue_2, Delivered_clue_3, Delivered_clue_4, Delivered_clue_5, Clue4_Pos_x, Clue4_Pos_y, Clue3_Pos_x, Clue3_Pos_y, Clue4, Clue3, Grabbed_clue_5, Grabbed_clue_4, Investigation_completed
+
+
+        if Dev_Mode == "ON" or Spectator_Mode == "ON":
+            print(f"Bot 4 Moved to Position: ({Bot_1_Pos_y}, {Bot_1_Pos_x})")
+        
+        if Bot_4_alive == True:
+            if Bot_4 == "Innocent":
+
+               if Investigation_completed == True:
+                    if Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Bot_1 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Bot_2 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Bot_3 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+            if Grabbed_clue_1 == False and Clues_Found == 0:
+                if Bot_4_Pos_x != Clue1_Pos_x:
+                    if Bot_4_Pos_x > Clue1_Pos_x:
+                        Bot_4_Pos_x -= 1
+                        
+                        
+                    elif Bot_4_Pos_x < Clue1_Pos_x:
+                        Bot_4_Pos_x += 1
+                        
+                        
+                elif Bot_4_Pos_x ==  Clue1_Pos_x and Bot_4_Pos_y != Clue1_Pos_y:
+                    if Bot_4_Pos_y > Clue1_Pos_y:
+                        Bot_4_Pos_y -= 1
+                        
+                        
+                    elif Bot_4_Pos_y < Clue1_Pos_y:
+                        Bot_4_Pos_y += 1
+                        
+                elif Bot_4_Pos_x ==  Clue1_Pos_x and Bot_4_Pos_y == Clue1_Pos_y:
+                    Grabbed_clue_1 = True
+                    Clues_Found = 1
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_1, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 4 grabbed clue 1!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+            
+            elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                if Bot_4_Pos_x != Clue2_Pos_x:
+                    if Bot_4_Pos_x > Clue2_Pos_x:
+                        Bot_4_Pos_x -= 1
+                        
+                        
+                    elif Bot_4_Pos_x < Clue2_Pos_x:
+                        Bot_4_Pos_x += 1
+                        
+                        
+                elif Bot_4_Pos_x ==  Clue2_Pos_x and Bot_4_Pos_y != Clue2_Pos_y:
+                    if Bot_4_Pos_y > Clue2_Pos_y:
+                        Bot_4_Pos_y -= 1
+                        
+                        
+                    elif Bot_4_Pos_y < Clue2_Pos_y:
+                        Bot_4_Pos_y += 1
+                        
+                elif Bot_4_Pos_x ==  Clue2_Pos_x and Bot_4_Pos_y == Clue2_Pos_y:
+                    Grabbed_clue_2 = True
+                    Clues_Found = 2
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_1, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 4 grabbed clue 2!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+
+                    
+
+            elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                if Bot_4_Pos_x != Clue3_Pos_x:
+                    if Bot_4_Pos_x > Clue3_Pos_x:
+                        Bot_4_Pos_x -= 1
+                        
+                        
+                    elif Bot_4_Pos_x < Clue3_Pos_x:
+                        Bot_4_Pos_x += 1
+                        
+                        
+                elif Bot_4_Pos_x ==  Clue3_Pos_x and Bot_4_Pos_y != Clue3_Pos_y:
+                    if Bot_4_Pos_y > Clue3_Pos_y:
+                        Bot_4_Pos_y -= 1
+                        
+                        
+                    elif Bot_4_Pos_y < Clue3_Pos_y:
+                        Bot_4_Pos_y += 1
+                        
+                elif Bot_4_Pos_x ==  Clue3_Pos_x and Bot_4_Pos_y == Clue3_Pos_y:
+                    Grabbed_clue_3 = True
+                    Clues_Found = 3
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_3, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 4 grabbed clue 3!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+
+
+            elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                if Bot_4_Pos_x != Clue4_Pos_x:
+                    if Bot_4_Pos_x > Clue4_Pos_x:
+                        Bot_4_Pos_x -= 1
+                        
+                        
+                    elif Bot_4_Pos_x < Clue4_Pos_x:
+                        Bot_4_Pos_x += 1
+                        
+                        
+                elif Bot_4_Pos_x ==  Clue4_Pos_x and Bot_4_Pos_y != Clue4_Pos_y:
+                    if Bot_4_Pos_y > Clue4_Pos_y:
+                        Bot_4_Pos_y -= 1
+                        
+                        
+                    elif Bot_4_Pos_y < Clue4_Pos_y:
+                        Bot_4_Pos_y += 1
+                        
+                elif Bot_4_Pos_x ==  Clue4_Pos_x and Bot_4_Pos_y == Clue4_Pos_y:
+                    Grabbed_clue_4 = True
+                    Clues_Found = 4
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_4, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 4 grabbed clue 4!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+
+
+
+            elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                if Bot_4_Pos_x != Clue5_Pos_x:
+                    if Bot_4_Pos_x > Clue5_Pos_x:
+                        Bot_4_Pos_x -= 1
+                        
+                        
+                    elif Bot_4_Pos_x < Clue5_Pos_x:
+                        Bot_4_Pos_x += 1
+                        
+                        
+                elif Bot_4_Pos_x ==  Clue5_Pos_x and Bot_4_Pos_y != Clue5_Pos_y:
+                    if Bot_4_Pos_y > Clue5_Pos_y:
+                        Bot_4_Pos_y -= 1
+                        
+                        
+                    elif Bot_4_Pos_y < Clue5_Pos_y:
+                        Bot_4_Pos_y += 1
+                        
+                elif Bot_4_Pos_x ==  Clue5_Pos_x and Bot_4_Pos_y == Clue5_Pos_y:
+                    Grabbed_clue_5 = True
+                    Clues_Found = 5
+                    time.sleep(1)
+                    if Dev_Mode == "ON":
+                        print(Grabbed_clue_5, Clues_Found)
+                    time.sleep(1)
+                    print("Bot 4 grabbed clue 5!")
+                    time.sleep(1)
+                    if Spectator_Mode == "OFF":
+                        print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                        time.sleep(2)
+                    
+                
+            elif Bot_4 == "Detective":
+
+                if Delivered_clue_5 == True:
+                    if Bot_4_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_4_Pos_x > Investigating_centre_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Investigating_centre_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_4_Pos_y > Investigating_centre_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Investigating_centre_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 is investigating the clues!")
+                        time.sleep(2)
+                        print("Bot 4 concludes that...")
+                        time.sleep(1)
+                        if Bot1 == "Traitor":
+                            print("The traitor is Bot 1")
+                        elif Bot_4 == "Traitor":
+                            print("The traitor is Bot 4")
+                        elif Bot_4 == "Traitor":
+                            print("The traitor is Bot 4")
+                        elif Bot_4 == "Traitor":
+                            print("The traitor is Bot 4")
+                        time.sleep(1)
+                    
+                
+                
+                if Grabbed_clue_3 == True or Clues_Found == 3:
+                    if Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Player == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed you")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Bot_1 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Bot_2 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                    elif Bot_4_Pos_x == Traitor_Pos_x and Traitor_Pos_y == Bot_4_Pos_y and Bot_3 == "Traitor":
+                        Tr -= 1
+                        time.sleep(1)
+                        print("Bot 4 killed the traitor")
+                        time.sleep(1)
+                        Check_for_win()
+                        
+                if Grabbed_clue_1 == False and Clues_Found == 0:
+                    if Bot_4_Pos_x != Clue1_Pos_x:
+                        if Bot_4_Pos_x > Clue1_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Clue1_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Clue1_Pos_x and Bot_4_Pos_y != Clue1_Pos_y:
+                        if Bot_4_Pos_y > Clue1_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Clue1_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Clue1_Pos_x and Bot_4_Pos_y == Clue1_Pos_y:
+                        Grabbed_clue_1 = True
+                        Clues_Found = 1
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 grabbed clue 1!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+                
+                elif Delivered_clue_1 == True and Clues_Found == 1 and Grabbed_clue_2 == False:
+                    if Bot_4_Pos_x != Clue2_Pos_x:
+                        if Bot_4_Pos_x > Clue2_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Clue2_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Clue2_Pos_x and Bot_4_Pos_y != Clue2_Pos_y:
+                        if Bot_4_Pos_y > Clue2_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Clue2_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Clue2_Pos_x and Bot_4_Pos_y == Clue2_Pos_y:
+                        Grabbed_clue_2 = True
+                        Clues_Found = 2
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 grabbed clue 2!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+                        
+
+                elif Delivered_clue_2 == True and Clues_Found == 2 and Grabbed_clue_3 == False:
+                    if Bot_4_Pos_x != Clue3_Pos_x:
+                        if Bot_4_Pos_x > Clue3_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Clue3_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Clue3_Pos_x and Bot_4_Pos_y != Clue3_Pos_y:
+                        if Bot_4_Pos_y > Clue3_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Clue3_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Clue3_Pos_x and Bot_4_Pos_y == Clue3_Pos_y:
+                        Grabbed_clue_3 = True
+                        Clues_Found = 3
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 grabbed clue 3!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+                elif Delivered_clue_3 == True and Clues_Found == 3 and Grabbed_clue_4 == False:
+                    if Bot_4_Pos_x != Clue4_Pos_x:
+                        if Bot_4_Pos_x > Clue4_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Clue4_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Clue4_Pos_x and Bot_4_Pos_y != Clue4_Pos_y:
+                        if Bot_4_Pos_y > Clue4_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Clue4_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Clue4_Pos_x and Bot_4_Pos_y == Clue4_Pos_y:
+                        Grabbed_clue_4 = True
+                        Clues_Found = 4
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 grabbed clue 4!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+    
+
+
+                elif Delivered_clue_4 == True and Clues_Found == 4 and Grabbed_clue_5 == False:
+                    if Bot_4_Pos_x != Clue5_Pos_x:
+                        if Bot_4_Pos_x > Clue5_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Clue5_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Clue5_Pos_x and Bot_4_Pos_y != Clue5_Pos_y:
+                        if Bot_4_Pos_y > Clue5_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Clue5_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Clue5_Pos_x and Bot_4_Pos_y == Clue5_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 grabbed clue 5!")
+                        time.sleep(1)
+                        if Spectator_Mode == "OFF":
+                            print(f"Deliver it to the investigating centre at room ({Investigating_centre_Pos_y},{Investigating_centre_Pos_x})")
+                            time.sleep(2)
+
+
+
+                if Grabbed_clue_1 == True and Clues_Found == 1 and Delivered_clue_1 == False:
+                    if Bot_4_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_4_Pos_x > Investigating_centre_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Investigating_centre_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_4_Pos_y > Investigating_centre_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Investigating_centre_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_1 = True
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_1, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 delivered clue 1!")
+                        if Player != "Traitor":
+                            print(Clue2)
+                        time.sleep(1)
+                
+                elif Grabbed_clue_2 == True and Clues_Found == 2 and Delivered_clue_2 == False:
+                    if Bot_4_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_4_Pos_x > Investigating_centre_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Investigating_centre_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_4_Pos_y > Investigating_centre_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Investigating_centre_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_2 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_2, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 delivered clue 2!")
+                        if Player != "Traitor":
+                            print(Clue3)
+                        time.sleep(1)
+
+                        
+
+                elif Grabbed_clue_3 == True and Clues_Found == 3 and Delivered_clue_3 == False:
+                    if Bot_4_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_4_Pos_x > Investigating_centre_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Investigating_centre_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_4_Pos_y > Investigating_centre_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Investigating_centre_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_3 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_3, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 delivered clue 3!")
+                        if Player != "Traitor":
+                            print(Clue4)
+                        time.sleep(1)
+    
+
+                elif Grabbed_clue_4 == True and Clues_Found == 4 and Delivered_clue_4 == False:
+                    if Bot_4_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_4_Pos_x > Investigating_centre_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Investigating_centre_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_4_Pos_y > Investigating_centre_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Investigating_centre_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y == Investigating_centre_Pos_y:
+                        Delivered_clue_4 = True
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Grabbed_clue_4, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 delivered clue 4!")
+                        if Player != "Traitor":
+                            print(Clue5)
+                        time.sleep(1)
+    
+
+
+                elif Grabbed_clue_5 == True and Clues_Found == 5 and Delivered_clue_5 == False:
+                    if Bot_4_Pos_x != Investigating_centre_Pos_x:
+                        if Bot_4_Pos_x > Investigating_centre_Pos_x:
+                            Bot_4_Pos_x -= 1
+                            
+                            
+                        elif Bot_4_Pos_x < Investigating_centre_Pos_x:
+                            Bot_4_Pos_x += 1
+                            
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y != Investigating_centre_Pos_y:
+                        if Bot_4_Pos_y > Investigating_centre_Pos_y:
+                            Bot_4_Pos_y -= 1
+                            
+                            
+                        elif Bot_4_Pos_y < Investigating_centre_Pos_y:
+                            Bot_4_Pos_y += 1
+                            
+                    elif Bot_4_Pos_x ==  Investigating_centre_Pos_x and Bot_4_Pos_y == Investigating_centre_Pos_y:
+                        Grabbed_clue_5 = True
+                        Clues_Found = 5
+                        time.sleep(1)
+                        if Dev_Mode == "ON":
+                            print(Delivered_clue_5, Clues_Found)
+                        time.sleep(1)
+                        print("Bot 4 delivered clue 5!")
+                        time.sleep(1)
+                        print("Detective needs to arrive at the Investigating centre")
+                        time.sleep(2)
+                        if Player != "Traitor":
+                            print("Investigating centre is in room ({Investigating_centre_Pos_y}{Investigating_centre_Pos_x}})")
+                        time.sleep(1)
+                    
+                   
+            elif Bot_4 == "Traitor":
+                if Bot_4_Pos_x == Pos_x and Bot_4_Pos_y == Pos_y and Player == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                elif Bot_4_Pos_x == Pos_x and Bot_4_Pos_y == Pos_y and Player == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    time.sleep(1)
+                    Player_alive = False
+                    Pos_x = 10
+                    Pos_y = 10
+                    
+                if Bot_4_Pos_x == Bot_2_Pos_x and Bot_4_Pos_y == Bot_2_Pos_y and Bot_2 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_2_alive = False
+                    Bot_2_Pos_x = 7
+                    Bot_2_Pos_y = 7
+                elif Bot_4_Pos_x == Bot_2_Pos_x and Bot_4_Pos_y == Bot_2_Pos_y and Bot_2 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_2_alive = False
+                    Bot_2_Pos_x = 7
+                    Bot_2_Pos_y = 7
+
+                if Bot_4_Pos_x == Bot_3_Pos_x and Bot_4_Pos_y == Bot_3_Pos_y and Bot_3 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_3_alive = False
+                    Bot_3_Pos_x = 8
+                    Bot_3_Pos_y = 8
+                elif Bot_4_Pos_x == Bot_3_Pos_x and Bot_4_Pos_y == Bot_3_Pos_y and Bot_3 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_3_alive = False
+                    Bot_3_Pos_x = 8
+                    Bot_3_Pos_y = 8
+
+                if Bot_4_Pos_x == Bot_1_Pos_x and Bot_4_Pos_y == Bot_1_Pos_y and Bot_1 == "Innocent":
+                    In -= 1
+                    Check_for_win()
+                    Bot_1_alive = False
+                    Bot_1_Pos_x = 6
+                    Bot_1_Pos_y = 6
+                elif Bot_4_Pos_x == Bot_1_Pos_x and Bot_4_Pos_y == Bot_1_Pos_y and Bot_1 == "Detective":
+                    De -= 1
+                    Check_for_win()
+                    Bot_1_alive = False
+                    Bot_1_Pos_x = 6
+                    Bot_1_Pos_y = 6
+            
+                Bot_Move = random.choice(["1","2"])
+                if Bot_4_Pos_x == 0 and Bot_Move == "1":
+                    Bot_4_Pos_x += 1
+                elif Bot_4_Pos_x == 5 and Bot_Move == "1":
+                    Bot_4_Pos_x -= 1
+                    
+                elif Bot_4_Pos_x >0 and Bot_4_Pos_x <5 and Bot_Move == "1":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_4_Pos_x += 1
+                    elif LOR == "2":
+                        Bot_4_Pos_x -= 1
+                
+                elif Bot_4_Pos_y == 0 and Bot_Move == "2":
+                    Bot_4_Pos_y += 1
+                elif Bot_4_Pos_y == 5 and Bot_Move == "2":
+                    Bot_4_Pos_y -= 1
+                    
+                elif Bot_4_Pos_y >0 and Bot_4_Pos_y <5 and Bot_Move == "2":
+                    LOR = random.choice (["1", "2"])
+                    if LOR == "1":
+                        Bot_4_Pos_y += 1
+                    elif LOR == "2":
+                        Bot_4_Pos_y -= 1
+
+    def Check_for_win():
+        global Move
+        print("Innocents alive:", In, "Detective alive:", De, "Traitor alive:", Tr)
+        
+        if Dev_Mode == "ON":
+            print(Tr, In, De)
+        if Tr == 0:
+            time.sleep(1)
+            print("The Innocents won")
+            time.sleep(1)
+            Play_Again = input("Play again? (Y/N): ").lower()
+            if Play_Again == "y":
+                Move = ""
+                Again()
+            elif Play_Again == "n":
+                exit()
+            else:
+                print("Invalid key")
+                Check_for_win()
+        elif In == 0 and De == 0 or Innocent_Kills == 2:
+            time.sleep(1)
+            print("The traitor won")
+            time.sleep(1)
+            Play_Again = input("Play again? (Y/N): ").lower()
+            if Play_Again == "y":
+                Move = ""
+                Again()
+            elif Play_Again == "n":
+                exit()
+            else:
+                print("Invalid key")
+                Check_for_win()
+
+    
+    if Player == "Innocent":
+        Innocent_Role()
+    elif Player == "Detective":
+        Detective_Role()
+    elif Player == "Traitor":
+        Traitor_Role()
+
+Again()
