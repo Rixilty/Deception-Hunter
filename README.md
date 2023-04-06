@@ -1,4 +1,4 @@
-# What's new in update v1.1?
+# What's new in v1.1?
 - Roles reworked
   - Innocents can now grab clues aswell.
   - Clues now need to be grabbed then delivered to the investigation centre
