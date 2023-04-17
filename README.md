@@ -1,6 +1,6 @@
 # What's new in v1.1?
 - Roles reworked
-  - Innocents can now grab clues aswell.
+  - Innocents can now grab clues as well.
   - Clues now need to be grabbed then delivered to the investigation centre
   - Clues to find increased from 3 to 5
   - These changes naturally buff the traitor role, which used to be the weakest role
